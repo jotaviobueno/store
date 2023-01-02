@@ -1,5 +1,5 @@
 import mongoose from "mongoose";
-import storage from "../config/storage.js";
+import storage from "../../config/storage.js";
 
 const connection = () => {
 	mongoose.connect(storage.mongoURI).then(() => {
