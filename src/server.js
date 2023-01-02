@@ -2,13 +2,13 @@ import express from "express";
 
 const server = express();
 
-const port = 8080;
+const port = 3000;
 
 // Database Connection
 import "./database/mongodb/connection.js";
 
 // Application Import
-import Application from "./app/app.js";
+import Application from "./application.js";
 Application(server, express);
 
 // server listening
