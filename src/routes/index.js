@@ -2,6 +2,6 @@ import {Router} from "express";
 // Routes
 import {userRoutes} from "./UserRoutes.js";
 
-const router = Router();
+export const indexRouter = Router();
 
-router.use("/user", userRoutes);
+indexRouter.use("/user", userRoutes);
