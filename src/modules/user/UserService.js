@@ -1,6 +1,6 @@
 import UserRepository from "./UserRepository.js";
 
-import ValidateGenre from "../../helper/user/ValidateGenre.js";
+import ValidateGenreRequestDTO from "../../DTO/Request/ValidateGenreRequestDTO.js";
 import UserResponseDTO from "../../DTO/Response/User/UserResponseDTO.js";
 
 class UserService {
@@ -11,7 +11,7 @@ class UserService {
 
 	async create(user) {
 
-		if (! ValidateGenre(user.genre))
+		if (! ValidateGenreRequestDTO(user.genre))
 			return { status: 400, message: { error: "invalid genre" }};
 
 		if (await this.userRepository.findByUsername(user.username))
