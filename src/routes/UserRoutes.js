@@ -10,3 +10,4 @@ import ValidateUser from "../Middleware/ValidateUser.js";
 
 userRoutes.post("/", UserController.create);
 userRoutes.get("/", ValidateSession, ValidateUser, UserController.showProfile);
+userRoutes.get("/:username", ValidateSession, ValidateUser, UserController.showOutherProfile);
