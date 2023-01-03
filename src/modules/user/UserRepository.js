@@ -34,6 +34,12 @@ class UserRepository {
 			birth_date: new Date(user.birth_date), 
 		});
 	}
+
+	async update(id, fieldToUpdate, value) {
+		return await this._userModel.updateOne({_id: id, deleted_at: null, banned_at: null}, {
+			[fieldToUpdate]: value, updated_at: new Date()
+		});
+	}
 }
 
 export default UserRepository;
