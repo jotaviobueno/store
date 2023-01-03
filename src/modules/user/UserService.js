@@ -31,6 +31,15 @@ class UserService {
 	showProfile(user) {
 		return {status: 200, message: {user: UserResponseDTO(user)}};
 	}
+
+	async showAUserProfile(username) {
+		const outherUser = await this.userRepository.findByUsername(username);
+
+		if (! outherUser)
+			return { status: 404, message: {error: "profile not found" }};
+
+		return { status: 200, message: {user: UserResponseDTO(outherUser) }}; 
+	}
 }
 
 export default new UserService;

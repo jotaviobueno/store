@@ -28,6 +28,14 @@ class UserController {
 
 		return res.status(status).json(message);
 	}
+
+	async showOutherProfile(req, res) {
+		const {username} = req.params;
+
+		const {status, message} = await UserService.showAUserProfile(username);
+
+		return res.status(status).json(message);
+	}
 }
 
 export default new UserController;
