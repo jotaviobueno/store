@@ -1,11 +1,10 @@
 import mongoose from "mongoose";
-import { nanoid } from "nanoid";
 
 const Schema = mongoose.Schema;
 
 const session = new Schema({
 
-	session_id: { type: String, unique: true, required: true, default: nanoid() },
+	session_id: { type: String, required: true, },
 	email: { type: String, required: true, },
 	user_id: { type: mongoose.Types.ObjectId, required: true, ref: "Users" },
 	address_ip: { type: String, required: true },
