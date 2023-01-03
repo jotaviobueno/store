@@ -27,6 +27,10 @@ class UserService {
 
 		return { status: 500, message: { error: "Unable to handle your request, please try again" }};
 	}
+
+	showProfile(user) {
+		return {status: 200, message: {user: UserResponseDTO(user)}};
+	}
 }
 
 export default new UserService;

@@ -20,6 +20,14 @@ class UserController {
 
 		return res.status(status).json(message);
 	}
+
+	showProfile(req, res) {
+		const {user} = req;
+
+		const {status, message} = UserService.showProfile(user);
+
+		return res.status(status).json(message);
+	}
 }
 
 export default new UserController;

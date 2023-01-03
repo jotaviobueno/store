@@ -23,10 +23,10 @@ class SessionService {
 		if (! await BcryptHelper.comparePassword(password, user.password))
 			return { status: 401, message: { error: "credentials invalid" }};
         
-		const userSessions = await this._sessionRepository.findByUserId();
+		const userSession = await this._sessionRepository.findByUserId(user._id);
 
-		if (userSessions) {
-			await this._sessionRepository.disconnect(userSessions._id);
+		if (userSession) {
+			await this._sessionRepository.disconnect(userSession._id);
 		}
 
 		const session = await this._sessionRepository.createSession(user._id, email, userAgent, address_ip);
