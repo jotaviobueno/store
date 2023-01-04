@@ -19,6 +19,15 @@ class UpdateUserController {
 
 		return res.status(status).json(message);
 	}
+
+	async updateLastName(req, res) {
+		const {user} = req;
+		const {last_name} = req.body;
+
+		const {status, message} = await UpdateUserService.updateFirstName(user, last_name);
+
+		return res.status(status).json(message);
+	}
 }
 
 export default new UpdateUserController;
