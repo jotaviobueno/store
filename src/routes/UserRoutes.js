@@ -17,3 +17,4 @@ userRoutes.patch("/update/username", ValidateSession, ValidateUser, UpdateUserCo
 userRoutes.patch("/update/firstname", ValidateSession, ValidateUser, UpdateUserController.updateFirstName);
 userRoutes.patch("/update/lastname", ValidateSession, ValidateUser, UpdateUserController.updateLastName);
 userRoutes.patch("/update/genre", ValidateSession, ValidateUser, UpdateUserController.updateGenre);
+userRoutes.patch("/update/birth-date", ValidateSession, ValidateUser, UpdateUserController.updateBirthDate);
