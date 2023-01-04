@@ -1,13 +1,17 @@
 import UserRepository from "./UserRepository.js";
+import SessionRepository from "../Session/SessionRepository.js";
 
 import ValidateGenreRequestDTO from "../../DTO/Request/ValidateGenreRequestDTO.js";
+import BcryptHelper from "../../helper/User/BcryptHelper.js";
 
 class UpdateUserService {
 
 	_userRepository;
+	_sessionRepository;
 
 	constructor() {
 		this._userRepository = new UserRepository;
+		this._sessionRepository = new SessionRepository;
 	}
 
 	async execute(user, fildToUpdate, value) {
@@ -49,6 +53,23 @@ class UpdateUserService {
 		if (update.matchedCount === 1)
 			return { status: 204, message: { success: " " }};
 
+		return { status: 500, message: { error: "Unable to handle your request, please try again" }};
+	}
+
+	async changePasswordLogged(user, password, session) {
+		
+		if (await BcryptHelper.comparePassword(user.password, password))
+			return { status: 400, message: { error: "the password entered is identical to the one on your account" }};
+
+		const update = await this._userRepository.update(user._id, "password", await BcryptHelper.generateHash(password, 10));
+
+		if (update.matchedCount === 1) {
+
+			await this._sessionRepository.disconnect(session._id);
+
+			return { status: 204, message: { success: " " }};
+		}
+	
 		return { status: 500, message: { error: "Unable to handle your request, please try again" }};
 	}
 }

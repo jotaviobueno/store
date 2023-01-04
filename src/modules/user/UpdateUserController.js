@@ -46,6 +46,15 @@ class UpdateUserController {
 
 		return res.status(status).json(message);
 	}
+
+	async changePasswordLogged(req, res) {
+		const {user, session} = req;
+		const {password} = req.body;
+
+		const {status, message} = await UpdateUserService.changePasswordLogged(user, password, session);
+
+		return res.status(status).json(message);
+	}
 }
 
 export default new UpdateUserController;
