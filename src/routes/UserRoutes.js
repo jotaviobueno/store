@@ -14,3 +14,5 @@ userRoutes.get("/", ValidateSession, ValidateUser, UserController.showProfile);
 userRoutes.get("/:username", ValidateSession, ValidateUser, UserController.showOutherProfile);
 
 userRoutes.patch("/update/username", ValidateSession, ValidateUser, UpdateUserController.updateUsername);
+userRoutes.patch("/update/firstname", ValidateSession, ValidateUser, UpdateUserController.updateFirstName);
+userRoutes.patch("/update/lastname", ValidateSession, ValidateUser, UpdateUserController.updateLastName);
