@@ -18,11 +18,15 @@ class UpdateUserService {
 
 		if (user[fildToUpdate] === value)
 			return { status: 409, message: { error: `the ${[fildToUpdate]} entered is the same as the one on your account` }};
-
+			
 		const update = await this._userRepository.update(user._id, `${[fildToUpdate]}`, value);
+			
+		if (update.matchedCount === 1) {
 
-		if (update.matchedCount === 1)
+			await this._userRepository.createLog(user._id, fildToUpdate, user[fildToUpdate], value);
+			
 			return { status: 204, message: { success: " " }};
+		}
 
 		return { status: 500, message: { error: "Unable to handle your request, please try again" }};
 	}
@@ -37,8 +41,12 @@ class UpdateUserService {
 
 		const update = await this._userRepository.update(user._id, "genre", genre);
 
-		if (update.matchedCount === 1)
+		if (update.matchedCount === 1) {
+
+			await this._userRepository.createLog(user._id, "genre", user.genre, genre);
+
 			return { status: 204, message: { success: " " }};
+		}
 
 		return { status: 500, message: { error: "Unable to handle your request, please try again" }};
 	}
@@ -50,8 +58,12 @@ class UpdateUserService {
 
 		const update = await this._userRepository.update(user._id, "birth_date", birth_date);
 
-		if (update.matchedCount === 1)
+		if (update.matchedCount === 1) {
+
+			await this._userRepository.createLog(user._id, "birth_date", user.birth_date, birth_date);
+
 			return { status: 204, message: { success: " " }};
+		}
 
 		return { status: 500, message: { error: "Unable to handle your request, please try again" }};
 	}
@@ -64,6 +76,8 @@ class UpdateUserService {
 		const update = await this._userRepository.update(user._id, "password", await BcryptHelper.generateHash(password, 10));
 
 		if (update.matchedCount === 1) {
+
+			await this._userRepository.createLog(user._id, "password", "?", "?");
 
 			await this._sessionRepository.disconnect(session._id);
 

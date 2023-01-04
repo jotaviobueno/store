@@ -1,13 +1,16 @@
 import UserModel from "../../models/User/UserModel.js";
+import UserUpdateHistoryModel from "../../models/User/UserUpdateHistoryModel.js";
 
 import BcryptHelper from "../../helper/User/BcryptHelper.js";
 
 class UserRepository {
 
 	_userModel;
+	_userUpdateHistoryModel;
 
 	constructor() {
 		this._userModel = UserModel;
+		this._userUpdateHistoryModel = UserUpdateHistoryModel;
 	}
 
 	async findByUsername(username) {
@@ -32,6 +35,15 @@ class UserRepository {
 			avatar_url: user.avatar_url ?? " ", 
 			genre: user.genre, 
 			birth_date: new Date(user.birth_date), 
+		});
+	}
+
+	async createLog(user_id, field, oldValue, value) {
+		return await this._userUpdateHistoryModel.create({
+			fieldUpdated: field,
+			oldValue: oldValue,
+			value: value,
+			user_id: user_id,
 		});
 	}
 

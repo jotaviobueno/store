@@ -7,7 +7,7 @@ class UpdateUserController {
 		const username = req.body.username.replace(" ", "");
 
 		const {status, message} = await UpdateUserService.execute(user, "username", username);
-
+		
 		return res.status(status).json(message);
 	}
 
