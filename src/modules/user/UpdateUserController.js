@@ -37,6 +37,15 @@ class UpdateUserController {
 
 		return res.status(status).json(message);
 	}
+
+	async updateBirthDate(req, res) {
+		const {user} = req;
+		const birth_date = new Date(req.body.birth_date);
+
+		const {status, message} = await UpdateUserService.updateBirthDate(user, birth_date);
+
+		return res.status(status).json(message);
+	}
 }
 
 export default new UpdateUserController;

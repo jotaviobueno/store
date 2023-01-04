@@ -38,6 +38,19 @@ class UpdateUserService {
 
 		return { status: 500, message: { error: "Unable to handle your request, please try again" }};
 	}
+
+	async updateBirthDate(user, birth_date) {
+
+		if (birth_date >= new Date())
+			return { status: 400, message: { error: "the date entered is invalid" }};
+
+		const update = await this._userRepository.update(user._id, "birth_date", birth_date);
+
+		if (update.matchedCount === 1)
+			return { status: 204, message: { success: " " }};
+
+		return { status: 500, message: { error: "Unable to handle your request, please try again" }};
+	}
 }
 
 export default new UpdateUserService;
