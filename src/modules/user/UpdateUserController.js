@@ -28,6 +28,15 @@ class UpdateUserController {
 
 		return res.status(status).json(message);
 	}
+
+	async updateGenre(req, res) {
+		const {user} = req;
+		const genre = req.body.genre.toUpperCase();
+
+		const {status, message} = await UpdateUserService.updateGenre(user, genre);
+
+		return res.status(status).json(message);
+	}
 }
 
 export default new UpdateUserController;
