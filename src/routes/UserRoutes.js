@@ -19,3 +19,5 @@ userRoutes.patch("/update/lastname", ValidateSession, ValidateUser, UpdateUserCo
 userRoutes.patch("/update/genre", ValidateSession, ValidateUser, UpdateUserController.updateGenre);
 userRoutes.patch("/update/birth-date", ValidateSession, ValidateUser, UpdateUserController.updateBirthDate);
 userRoutes.patch("/update/password-logged", ValidateSession, ValidateUser, UpdateUserController.changePasswordLogged);
+
+userRoutes.patch("/update/password-with-token", UpdateUserController.changeThePasswordWithAToken);
