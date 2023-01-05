@@ -18,6 +18,10 @@ class AuthTokenRepository {
 		});
 	}
 
+	async findToken(token) {
+		return await this._authTokenModel.findOne({token, status: "generated", token_generated_for: "CHANGE_PASSWORD"});
+	}
+
 	async validateUserTokens(user_id, generated_for) {
 		const tokens = await this._authTokenModel.findOne({user_id, status: "generated", token_generated_for: generated_for});
 

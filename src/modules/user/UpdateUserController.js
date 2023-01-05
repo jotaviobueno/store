@@ -55,6 +55,15 @@ class UpdateUserController {
 
 		return res.status(status).json(message);
 	}
+
+	async changeThePasswordWithAToken(req, res) {
+		const {token} = req.headers;
+		const {password} = req.body;
+
+		const {status, message} = await UpdateUserService.changeThePasswordWithAToken(token, password);
+
+		return res.status(status).json(message);
+	}
 }
 
 export default new UpdateUserController;
