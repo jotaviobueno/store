@@ -17,9 +17,9 @@ class SessionService {
 	async create(email, password, address_ip, userAgent) {
 		const user = await this._userRepository.findByEmail(email);
 
-		if (! user )
+		if (! user ) 
 			return { status: 401, message: { error: "credentials invalid" }};
-
+		
 		if (! await BcryptHelper.comparePassword(password, user.password))
 			return { status: 401, message: { error: "credentials invalid" }};
         
@@ -28,7 +28,7 @@ class SessionService {
 		if (userSession) {
 			await this._sessionRepository.disconnect(userSession._id);
 		}
-
+	
 		const session = await this._sessionRepository.createSession(user._id, email, userAgent, address_ip);
 
 		if (session)

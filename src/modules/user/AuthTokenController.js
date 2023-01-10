@@ -10,6 +10,14 @@ class AuthTokenController {
 		return res.status(status).json(message);
 	}
 
+	async generateTokenToDeleteAccount(req, res) {
+		const {user} = req;
+		const {password} = req.body;
+
+		const {status, message} = await AuthTokenService.generateTokenToDeleteAccount(user, password);
+		
+		return res.status(status).json(message);
+	}
 }
 
 export default new AuthTokenController;

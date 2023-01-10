@@ -9,17 +9,16 @@ class AuthTokenRepository {
 		this._authTokenModel = AuthTokenModel;
 	}
 
-	async create(user_id, email) {
+	async create(user_id, generated_for) {
 		return await this._authTokenModel.create({
 			token: nanoid(),
-			email: email,
 			user_id: user_id,
-			token_generated_for: "CHANGE_PASSWORD"
+			token_generated_for: generated_for
 		});
 	}
 
-	async findToken(token) {
-		return await this._authTokenModel.findOne({token, status: "generated", token_generated_for: "CHANGE_PASSWORD"});
+	async findToken(token, generated_for) {
+		return await this._authTokenModel.findOne({token, status: "generated", token_generated_for: generated_for});
 	}
 
 	async validateUserTokens(user_id, generated_for) {
