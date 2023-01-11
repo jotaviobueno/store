@@ -21,17 +21,13 @@ class UpdateUserService {
 
 		if (user[fildToUpdate] === value)
 			return { status: 409, message: { error: `the ${[fildToUpdate]} entered is the same as the one on your account` }};
-			
-		const update = await this._userRepository.update(user._id, `${[fildToUpdate]}`, value);
-			
-		if (update.matchedCount === 1) {
+					
+		if (await this._userRepository.updateAndCreateLog(user._id, `${[fildToUpdate]}`, user[fildToUpdate], value)) {
 
-			await this._userRepository.createLog(user._id, fildToUpdate, user[fildToUpdate], value);
-			
 			return { status: 204, message: { success: " " }};
 		}
 
-		return { status: 500, message: { error: "Unable to handle your request, please try again" }};
+		return { status: 400, message: { error: "username already exist" }};
 	}
 
 	async updateGenre(user, genre) {
@@ -42,11 +38,8 @@ class UpdateUserService {
 		if (user.genre === genre)
 			return { status: 409, message: { error: "the genre entered is the same as the one on your account" }};
 
-		const update = await this._userRepository.update(user._id, "genre", genre);
-
-		if (update.matchedCount === 1) {
-
-			await this._userRepository.createLog(user._id, "genre", user.genre, genre);
+		
+		if (await this._userRepository.updateAndCreateLog(user._id, "genre", user.genre, genre)) {
 
 			return { status: 204, message: { success: " " }};
 		}
@@ -59,11 +52,8 @@ class UpdateUserService {
 		if (birth_date >= new Date())
 			return { status: 400, message: { error: "the date entered is invalid" }};
 
-		const update = await this._userRepository.update(user._id, "birth_date", birth_date);
-
-		if (update.matchedCount === 1) {
-
-			await this._userRepository.createLog(user._id, "birth_date", user.birth_date, birth_date);
+		
+		if (await this._userRepository.updateAndCreateLog(user._id, "birth_date", user.birth_date, birth_date)) {
 
 			return { status: 204, message: { success: " " }};
 		}
@@ -123,7 +113,33 @@ class UpdateUserService {
 			if (session)
 				await this._sessionRepository.disconnect(session._id);
 
+			await this._authTokenRepository.update(tokenInformation._id, tokenInformation.token_generated_for, "status", "used");
+
+			return { status: 204, message: { success: " " }};
+		}
+
+		return { status: 500, message: { error: "Unable to handle your request, please try again" }};
+	}
+
+	async deleteAccount(user, session, token) {
+
+		const tokenInformation = await this._authTokenRepository.findToken(token, "DELETE_ACCOUNT");
+
+		if (! tokenInformation) 
+			return { status: 403, message: { error: "token not found" }};
+
+		if (tokenInformation.user_id.toString() != user._id.toString()) {
+
 			await this._authTokenRepository.update(tokenInformation._id, tokenInformation.token_generated_for, "status", "discarted");
+
+			return { status: 401, message: { error: "not authorized" }};
+		}
+
+		if (await this._userRepository.updateAndCreateLog(user._id, "deleted_at", user.deleted_at, new Date())) {
+
+			await this._authTokenRepository.update(tokenInformation._id, tokenInformation.token_generated_for, "status", "used");
+
+			await this._sessionRepository.disconnect(session._id);
 
 			return { status: 204, message: { success: " " }};
 		}

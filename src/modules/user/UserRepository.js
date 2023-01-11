@@ -26,16 +26,20 @@ class UserRepository {
 	}
 
 	async create(user) {
-		return await this._userModel.create({
-			first_name: user.first_name, 
-			last_name: user.last_name, 
-			username: user.username, 
-			email: user.email, 
-			password: await BcryptHelper.generateHash(user.password), 
-			avatar_url: user.avatar_url ?? " ", 
-			genre: user.genre, 
-			birth_date: new Date(user.birth_date), 
-		});
+		try {
+			return await this._userModel.create({
+				first_name: user.first_name, 
+				last_name: user.last_name, 
+				username: user.username, 
+				email: user.email, 
+				password: await BcryptHelper.generateHash(user.password), 
+				avatar_url: user.avatar_url ?? " ", 
+				genre: user.genre, 
+				birth_date: new Date(user.birth_date), 
+			});
+		} catch(e) {
+			return false;
+		}
 	}
 
 	async createLog(user_id, field, oldValue, value) {
@@ -45,6 +49,24 @@ class UserRepository {
 			value: value,
 			user_id: user_id,
 		});
+	}
+
+	async updateAndCreateLog(id, fieldToUpdate, oldValue, value) {
+		try {
+			const update = await this._userModel.updateOne({_id: id, deleted_at: null, banned_at: null}, {
+				[fieldToUpdate]: value, updated_at: new Date()
+			});
+	
+			if (update.modifiedCount === 1) {
+				await this.createLog(id, fieldToUpdate, oldValue, value);
+	
+				return true;
+			}
+	
+			return false;
+		} catch(e) {
+			return false;
+		}
 	}
 
 	async update(id, fieldToUpdate, value) {

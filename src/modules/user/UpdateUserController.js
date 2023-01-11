@@ -64,6 +64,15 @@ class UpdateUserController {
 
 		return res.status(status).json(message);
 	}
+
+	async deleteAccount(req, res) {
+		const {token} = req.headers;
+		const {user, session} = req;
+
+		const {status, message} = await UpdateUserService.deleteAccount(user, session, token);
+
+		return res.status(status).json(message);
+	}
 }
 
 export default new UpdateUserController;
