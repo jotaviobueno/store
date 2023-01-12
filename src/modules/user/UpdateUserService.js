@@ -17,7 +17,7 @@ class UpdateUserService {
 		this._authTokenRepository = new AuthTokenRepository;
 	}
 
-	async execute(user, fildToUpdate, value) {
+	async handleSimpleUpdate(user, fildToUpdate, value) {
 
 		if (user[fildToUpdate] === value)
 			return { status: 409, message: { error: `the ${[fildToUpdate]} entered is the same as the one on your account` }};

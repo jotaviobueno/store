@@ -6,7 +6,7 @@ class UpdateUserController {
 		const {user} = req;
 		const username = req.body.username.replace(" ", "");
 
-		const {status, message} = await UpdateUserService.execute(user, "username", username);
+		const {status, message} = await UpdateUserService.handleSimpleUpdate(user, "username", username);
 		
 		return res.status(status).json(message);
 	}
@@ -15,7 +15,7 @@ class UpdateUserController {
 		const {user} = req;
 		const {first_name} = req.body;
 
-		const {status, message} = await UpdateUserService.execute(user, "first_name", first_name);
+		const {status, message} = await UpdateUserService.handleSimpleUpdate(user, "first_name", first_name);
 
 		return res.status(status).json(message);
 	}
@@ -24,7 +24,7 @@ class UpdateUserController {
 		const {user} = req;
 		const {last_name} = req.body;
 
-		const {status, message} = await UpdateUserService.execute(user, "last_name", last_name);
+		const {status, message} = await UpdateUserService.handleSimpleUpdate(user, "last_name", last_name);
 
 		return res.status(status).json(message);
 	}
