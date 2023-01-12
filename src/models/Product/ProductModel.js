@@ -7,6 +7,7 @@ const Product = new Schema({
 	name: { type: String, required: true, },
 	description: { type: String, required: true, },
 	user_id: { type: mongoose.Types.ObjectId, required: true, ref: "Users" },
+	product_id: { type: String, required: true },
 	price: { type: Number, required: true, min: 0 },
 	discount: { type: Number, default: 0, min: 0 },
 	stock: { type: Number, required: true, default: 1, min: 0, maxLength: 4, },
