@@ -28,13 +28,17 @@ class ProductService {
 			const storedProduct = await this._productRepository.create(user._id, product);
 
 			if (storedProduct)
-				return { status: 201, message: { product: ProductResponseDTO(storedProduct) }};
+				return { status: 201, message: { product: ProductResponseDTO.treatOnlyOneProduct(storedProduct) }};
 
 			return { status: 500, message: { error: "Failed to create product, please try again" }};
 
 		} catch(e) {
 			return { status: 422, message: { error: "some information is with its described type different from the accepted one" }};
 		}
+	}
+
+	async showProdutcs() {
+		return { status: 200, message: { products: ProductResponseDTO.treatManyProducts(await this._productRepository.findAll() )}};
 	}
 }
 

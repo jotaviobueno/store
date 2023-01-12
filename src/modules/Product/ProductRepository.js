@@ -32,6 +32,10 @@ class ProductRepository {
 	findProductById(product_id) {
 		return this._productModel.findOne({ product_id, deleted_at: null });
 	}
+
+	async findAll() {
+		return  await this._productModel.find({deleted_at: null });
+	}
 }
 
 export default ProductRepository;

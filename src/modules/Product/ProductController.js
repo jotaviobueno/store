@@ -17,6 +17,12 @@ class ProductController {
 
 		return res.status(status).json(message);
 	}
+
+	async showProdutcs(req, res) {
+		const {status, message} = await ProductService.showProdutcs();
+
+		return res.status(status).json(message);
+	}
 }
 
 export default new ProductController;
