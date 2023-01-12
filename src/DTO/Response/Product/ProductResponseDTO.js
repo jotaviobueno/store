@@ -2,6 +2,7 @@ export default function ProductResponseDTO(product) {
 	return {
 		name: product.name,
 		description: product.description,
+		product_id: product.product_id,
 		price: product.price,
 		discount: `%${product.discount}`,
 		stock: product.stock,
