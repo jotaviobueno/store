@@ -12,4 +12,8 @@ import ValidateProduct from "../Middleware/ValidateProduct.js";
 import ValidateProductOwner from "../Middleware/ValidateProductOwner.js";
 
 productRoutes.post("/", ValidateSession, ValidateUser, ProductController.createProduct);
+productRoutes.get("/", ValidateSession, ValidateUser, ProductController.showProdutcs);
+
 productRoutes.patch("/update/name", ValidateSession, ValidateUser, ValidateProduct, ValidateProductOwner, UpdateProductController.updateProductName);
+productRoutes.patch("/update/description", ValidateSession, ValidateUser, ValidateProduct, ValidateProductOwner, UpdateProductController.updateProductDescription);
+productRoutes.patch("/update/price", ValidateSession, ValidateUser, ValidateProduct, ValidateProductOwner, UpdateProductController.updateProductPrice);
