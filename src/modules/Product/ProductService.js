@@ -37,7 +37,7 @@ class ProductService {
 		}
 	}
 
-	async showProdutcs() {
+	async showManyProduct() {
 		return { status: 200, message: { products: ProductResponseDTO.treatManyProducts(await this._productRepository.findAll() )}};
 	}
 }

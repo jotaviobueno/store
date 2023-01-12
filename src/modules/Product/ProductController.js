@@ -18,8 +18,8 @@ class ProductController {
 		return res.status(status).json(message);
 	}
 
-	async showProdutcs(req, res) {
-		const {status, message} = await ProductService.showProdutcs();
+	async showManyProduct(req, res) {
+		const {status, message} = await ProductService.showManyProduct();
 
 		return res.status(status).json(message);
 	}
