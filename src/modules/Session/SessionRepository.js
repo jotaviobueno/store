@@ -9,8 +9,8 @@ class SessionRepository {
 		this._sessionModel = SessionModel;
 	}
 
-	async createSession(user_id, email, userAgent, address_ip) {
-		return await this._sessionModel.create({
+	createSession(user_id, email, userAgent, address_ip) {
+		return this._sessionModel.create({
 			session_id: nanoid(),
 			email: email,
 			user_id: user_id,
@@ -19,16 +19,16 @@ class SessionRepository {
 		});
 	}
 
-	async findByUserId(user_id) {
-		return await this._sessionModel.findOne({user_id, disconnected_in: null});
+	findByUserId(user_id) {
+		return this._sessionModel.findOne({user_id, disconnected_in: null});
 	}
 
-	async disconnect(_id) {
-		return await this._sessionModel.updateOne({_id}, {disconnected_in: new Date()});
+	disconnect(_id) {
+		return this._sessionModel.updateOne({_id}, {disconnected_in: new Date()});
 	}
 
-	async findBySessionId(session_id) {
-		return await this._sessionModel.findOne({session_id, disconnected_in: null});
+	findBySessionId(session_id) {
+		return this._sessionModel.findOne({session_id, disconnected_in: null});
 	}
 }
 

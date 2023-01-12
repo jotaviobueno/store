@@ -13,16 +13,16 @@ class UserRepository {
 		this._userUpdateHistoryModel = UserUpdateHistoryModel;
 	}
 
-	async findByUsername(username) {
-		return await this._userModel.findOne({username, deleted_at: null, banned_at: null});
+	findByUsername(username) {
+		return this._userModel.findOne({username, deleted_at: null, banned_at: null});
 	}
 
-	async findByEmail(email) {
-		return await this._userModel.findOne({email, deleted_at: null, banned_at: null});
+	findByEmail(email) {
+		return this._userModel.findOne({email, deleted_at: null, banned_at: null});
 	}
 
-	async findById(id) {
-		return await this._userModel.findOne({_id: id, deleted_at: null, banned_at: null});
+	findById(id) {
+		return this._userModel.findOne({_id: id, deleted_at: null, banned_at: null});
 	}
 
 	async create(user) {
@@ -42,8 +42,8 @@ class UserRepository {
 		}
 	}
 
-	async createLog(user_id, field, oldValue, value) {
-		return await this._userUpdateHistoryModel.create({
+	createLog(user_id, field, oldValue, value) {
+		return this._userUpdateHistoryModel.create({
 			fieldUpdated: field,
 			oldValue: oldValue,
 			value: value,
@@ -69,8 +69,8 @@ class UserRepository {
 		}
 	}
 
-	async update(id, fieldToUpdate, value) {
-		return await this._userModel.updateOne({_id: id, deleted_at: null, banned_at: null}, {
+	update(id, fieldToUpdate, value) {
+		return this._userModel.updateOne({_id: id, deleted_at: null, banned_at: null}, {
 			[fieldToUpdate]: value, updated_at: new Date()
 		});
 	}

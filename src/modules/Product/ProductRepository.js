@@ -10,8 +10,8 @@ class ProductRepository {
 		this._productModel = ProductModel;
 	}
 
-	async create(user_id, product) {
-		return await this._productModel.create({
+	create(user_id, product) {
+		return this._productModel.create({
 			name: product.name,
 			description: product.description,
 			product_id: nanoid(),
@@ -23,14 +23,14 @@ class ProductRepository {
 		});
 	}
 
-	async update(_id, fildToUpdate, value) {
-		return await this._productModel.updateOne({_id, deleted_at: null}, {
+	update(_id, fildToUpdate, value) {
+		return this._productModel.updateOne({_id, deleted_at: null}, {
 			[fildToUpdate]: value, updated_at: new Date()
 		});
 	}
 
-	async findProductById(product_id) {
-		return await this._productModel.findOne({ product_id, deleted_at: null });
+	findProductById(product_id) {
+		return this._productModel.findOne({ product_id, deleted_at: null });
 	}
 }
 
