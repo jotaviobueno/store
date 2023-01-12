@@ -16,8 +16,14 @@ class ProductService {
 			if (product.stock >= 1000)
 				return { status: 400, message: { error: "the quantity of stock is above the allowed" }};
 
+			if (product.stock < 1)
+				return { status: 400, message: { error: "you are putting a value below the acceptable stock" }};
+
 			if (product.price < 1)
 				return { status: 400, message: { error: "the minimum value of the price is R$1, that is, below that will not be accepted" }};
+
+			if (product.price >= 1000000000)
+				return { status: 400, message: { error: "the reported value is above acceptable" }};
 
 			if (product.category.length >= 5)
 				return { status: 400, message: { error: "" }};
@@ -39,6 +45,10 @@ class ProductService {
 
 	async showManyProduct() {
 		return { status: 200, message: { products: ProductResponseDTO.treatManyProducts(await this._productRepository.findAll() )}};
+	}
+
+	async showProduct(product) {
+		return { status: 200, message: { product: ProductResponseDTO.treatOnlyOneProduct(product) }};
 	}
 }
 

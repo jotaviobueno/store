@@ -28,6 +28,15 @@ class UpdateProductController {
 
 		return res.status(status).json(message);
 	}
+
+	async updateProductStock(req, res) {
+		const {product} = req;
+		const {stock} = req.body;
+
+		const {status, message} = await UpdateProductService.handleSimpleUpdate(product, "stock", stock);
+
+		return res.status(status).json(message);
+	}
 }
 
 export default new UpdateProductController;
